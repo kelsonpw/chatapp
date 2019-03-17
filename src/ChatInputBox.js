@@ -4,11 +4,11 @@ import { db } from './firebase';
 function ChatInputBox() {
   const [text, setText] = useState('');
 
-  function updateMessage(event) {
+  const updateMessage = event => {
     setText(event.target.value);
-  }
+  };
 
-  function postMessage(event) {
+  const postMessage = event => {
     event.preventDefault();
     db.collection('channels')
       .doc('github')
@@ -18,7 +18,7 @@ function ChatInputBox() {
         createdAt: new Date(),
       });
     setText('');
-  }
+  };
 
   return (
     <form onSubmit={postMessage} className="ChatInputBox">
