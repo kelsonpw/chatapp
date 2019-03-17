@@ -1,6 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase';
+import 'firebase/firestore';
+
+const config = {
+  apiKey: 'AIzaSyBFD9zOGFuTR5Qq0UOlr81gVPyvdumEvDk',
+  authDomain: 'airheadio.firebaseapp.com',
+  databaseURL: 'https://airheadio.firebaseio.com',
+  projectId: 'airheadio',
+  storageBucket: 'airheadio.appspot.com',
+  messagingSenderId: '471992828967',
+};
+
+firebase.initializeApp(config);
+const db = firebase.firestore();
 
 function App() {
+  const [channels, setChannels] = useState([
+    { topic: 'Something hardcoded', id: 'general' },
+  ]);
+
+  useEffect(() => {
+    db.collection('channels').onSnapshot((snapshot) => {
+     const docs = [];
+     snapshot.forEach((doc) => {
+       docs.push({
+         ...doc.data(),
+         id: doc.id
+       })
+     });
+     setChannels(docs);
+    })
+  }, []);
+
   return (
     <div className="App">
       <div className="Nav">
@@ -18,10 +49,12 @@ function App() {
           </div>
         </div>
         <nav className="ChannelNav">
-          <a href="/channel/awesome"># awesome</a>
-          <a className="active" href="/channel/general">
-            # general
+          <a className="active" href="/channel/awesome">
+            # awesome
           </a>
+          {channels.map(({id}) => (
+            <a href={`/channel/${id}`}># {id}</a>
+          ))}
         </nav>
       </div>
       <div className="Channel">
