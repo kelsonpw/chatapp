@@ -10,7 +10,7 @@ function Nav() {
       snapshot.forEach(doc => {
         docs.push({
           ...doc.data(),
-          id: doc.id
+          id: doc.id,
         });
       });
       setChannels(docs);
@@ -34,7 +34,9 @@ function Nav() {
       </div>
       <nav className="ChannelNav">
         {channels.map(channel => (
-          <a href={`/channel/${channel.id}`}># {channel.id}</a>
+          <a key={channel.id} href={`/channel/${channel.id}`}>
+            # {channel.id}
+          </a>
         ))}
       </nav>
     </div>
