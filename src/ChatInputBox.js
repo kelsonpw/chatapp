@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from './firebase';
 
-function ChatInputBox() {
+function ChatInputBox({ user }) {
   const [text, setText] = useState('');
 
   const updateMessage = event => {
@@ -14,6 +14,7 @@ function ChatInputBox() {
       .doc('github')
       .collection('messages')
       .add({
+        user: db.collection('users').doc(user.uid),
         text,
         createdAt: new Date(),
       });
