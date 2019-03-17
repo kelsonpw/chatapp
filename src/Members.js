@@ -6,7 +6,7 @@ function Members() {
       <div>
         <div className="Member">
           <div className="MemberStatus offline" />
-          Ryan Florence
+          Kelson Warner
         </div>
         <div className="Member">
           <div className="MemberStatus online" />
