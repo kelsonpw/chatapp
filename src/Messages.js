@@ -1,5 +1,6 @@
 import React from 'react';
 import useCollection from './useCollection';
+import useDocument from './useDocument';
 
 function Messages() {
   const messages = useCollection('channels/github/messages', 'createdAt');
@@ -8,32 +9,54 @@ function Messages() {
     <div className="Messages">
       <div className="EndOfMessages">That's every message!</div>
       {messages.map((message, index) => {
-        return index === 0 ? (
-          <div>
-            <div className="Day">
-              <div className="DayLine" />
-              <div className="DayText">12/6/2018</div>
-              <div className="DayLine" />
-            </div>
-            <div className="Message with-avatar">
-              <div className="Avatar" />
-              <div className="Author">
-                <div>
-                  <span className="UserName">Kelson Warner </span>
-                  <span className="TimeStamp">3:37 PM</span>
-                </div>
-                <div className="MessageContent">{message.text}</div>
-              </div>
-            </div>
-          </div>
+        const prev = messages[index - 1];
+        const showDate = false;
+        const showAvatar = !prev || prev.user.id !== message.user.id;
+        return showAvatar ? (
+          <MessageWithAvatar
+            key={message.id}
+            message={message}
+            showDate={showDate}
+          />
         ) : (
-          <div>
+          <div key={message.id}>
             <div className="Message no-avatar">
               <div className="MessageContent">{message.text}</div>
             </div>
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function MessageWithAvatar({ message, showDate }) {
+  const author = useDocument(message.user.path);
+  console.log(author);
+  return (
+    <div>
+      {showDate && (
+        <div className="Day">
+          <div className="DayLine" />
+          <div className="DayText">12/6/2018</div>
+          <div className="DayLine" />
+        </div>
+      )}
+      <div className="Message with-avatar">
+        <div
+          className="Avatar"
+          style={{
+            backgroundImage: author && `url(${author.photoUrl})`,
+          }}
+        />
+        <div className="Author">
+          <div>
+            <span className="UserName">{author && author.displayName}</span>
+            <span className="TimeStamp">3:37 PM</span>
+          </div>
+          <div className="MessageContent">{message.text}</div>
+        </div>
+      </div>
     </div>
   );
 }
