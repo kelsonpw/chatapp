@@ -1,11 +1,26 @@
 import React from 'react';
 import T from 'prop-types';
 import useCollection from './useCollection';
-import useDocument from './useDocument';
+import MessageWithAvatar from './MessageWithAvatar';
 
 const messagesPropTypes = {
   channelId: T.string.isRequired,
 };
+
+function shouldShowAvatar(prev, message) {
+  // is first message
+  const isFirst = !prev;
+  if (isFirst) return true;
+  // is a different user than previous message
+  const isDifferentUser = prev.user.id !== message.user.id;
+  if (isDifferentUser) return true;
+  // has been longer than 3 minutes since previous message
+  const hasBeenThreeMinutes =
+    message.createdAt.seconds - prev.createdAt.seconds > 180;
+  if (hasBeenThreeMinutes) return true;
+  // do not show avatar, same user and less than 3 minutes since previous
+  return false;
+}
 
 function Messages({ channelId }) {
   const messages = useCollection(`channels/${channelId}/messages`, 'createdAt');
@@ -16,7 +31,7 @@ function Messages({ channelId }) {
       {messages.map((message, index) => {
         const prev = messages[index - 1];
         const showDate = false;
-        const showAvatar = !prev || prev.user.id !== message.user.id;
+        const showAvatar = shouldShowAvatar(prev, message);
         return showAvatar ? (
           <MessageWithAvatar
             key={message.id}
@@ -35,43 +50,6 @@ function Messages({ channelId }) {
   );
 }
 
-const messageWithAvatarPropTypes = {
-  message: T.object.isRequired,
-  showDate: T.bool.isRequired,
-};
-
-function MessageWithAvatar({ message, showDate }) {
-  const author = useDocument(message.user.path);
-
-  return (
-    <div>
-      {showDate && (
-        <div className="Day">
-          <div className="DayLine" />
-          <div className="DayText">12/6/2018</div>
-          <div className="DayLine" />
-        </div>
-      )}
-      <div className="Message with-avatar">
-        <div
-          className="Avatar"
-          style={{
-            backgroundImage: author && `url(${author.photoUrl})`,
-          }}
-        />
-        <div className="Author">
-          <div>
-            <span className="UserName">{author && author.displayName}</span>{' '}
-            <span className="TimeStamp">3:37 PM</span>
-          </div>
-          <div className="MessageContent">{message.text}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 Messages.propTypes = messagesPropTypes;
-MessageWithAvatar.propTypes = messageWithAvatarPropTypes;
 
 export default Messages;
