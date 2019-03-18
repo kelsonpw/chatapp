@@ -19,7 +19,7 @@ export default function useCollection(path, orderBy) {
       });
       setDocs(docs);
     });
-  }, [path]);
+  }, [path, orderBy]);
 
   return docs;
 }
