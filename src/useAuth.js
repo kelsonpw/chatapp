@@ -13,10 +13,10 @@ export default function useAuth() {
           photoUrl: firebaseUser.photoURL,
           uid: firebaseUser.uid,
         };
-        setUser(user);
         db.collection('users')
           .doc(user.uid)
           .set(user, { merge: true });
+        setUser(user);
       } else {
         setUser(null);
       }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from './firebase';
 
-function ChatInputBox({ user }) {
+function ChatInputBox({ channelId, user }) {
   const [text, setText] = useState('');
 
   const updateMessage = event => {
@@ -10,14 +10,12 @@ function ChatInputBox({ user }) {
 
   const postMessage = event => {
     event.preventDefault();
-    db.collection('channels')
-      .doc('github')
-      .collection('messages')
-      .add({
-        user: db.collection('users').doc(user.uid),
-        text,
-        createdAt: new Date(),
-      });
+    db.collection(`channels/${channelId}/messages`)
+    .add({
+      user: db.collection('users').doc(user.uid),
+      text,
+      createdAt: new Date(),
+    });
     setText('');
   };
 
@@ -25,7 +23,7 @@ function ChatInputBox({ user }) {
     <form onSubmit={postMessage} className="ChatInputBox">
       <input
         className="ChatInput"
-        placeholder="Message #general"
+        placeholder={`Message #${channelId}`}
         value={text}
         onChange={updateMessage}
       />

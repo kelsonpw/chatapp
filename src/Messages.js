@@ -2,8 +2,8 @@ import React from 'react';
 import useCollection from './useCollection';
 import useDocument from './useDocument';
 
-function Messages() {
-  const messages = useCollection('channels/github/messages', 'createdAt');
+function Messages({ channelId }) {
+  const messages = useCollection(`channels/${channelId}/messages`, 'createdAt');
 
   return (
     <div className="Messages">
