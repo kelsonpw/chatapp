@@ -1,6 +1,11 @@
 import React from 'react';
+import T from 'prop-types';
 
-function ChannelInfo() {
+const propTypes = {
+  channelId: T.string.isRequired,
+};
+
+function ChannelInfo({ channelId }) {
   return (
     <div className="ChannelInfo">
       <div className="Topic">
@@ -10,5 +15,7 @@ function ChannelInfo() {
     </div>
   );
 }
+
+ChannelInfo.propTypes = propTypes;
 
 export default ChannelInfo;

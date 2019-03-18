@@ -16,7 +16,7 @@ function Channel({ channelId, user }) {
     <div className="Channel">
       {channelId && (
         <div className="ChannelMain">
-          <ChannelInfo />
+          <ChannelInfo channelId={channelId} />
           <Messages channelId={channelId} />
           <ChatInputBox channelId={channelId} user={user} />
         </div>

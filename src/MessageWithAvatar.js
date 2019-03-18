@@ -16,7 +16,9 @@ function MessageWithAvatar({ message, showDate }) {
       {showDate && (
         <div className="Day">
           <div className="DayLine" />
-          <div className="DayText">12/6/2018</div>
+          <div className="DayText">
+            {formatDate(message.createdAt.seconds * 1000, 'MM/DD/YYYY')}
+          </div>
           <div className="DayLine" />
         </div>
       )}
