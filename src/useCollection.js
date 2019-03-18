@@ -3,14 +3,13 @@ import { db } from './firebase';
 
 export default function useCollection(path, orderBy, query) {
   const [docs, setDocs] = useState([]);
-
+  const [field, operator, value] = query;
   useEffect(() => {
     let collection = db.collection(path);
     if (orderBy) {
       collection = collection.orderBy(orderBy);
     }
-    if (query) {
-      const { field, operator, value } = query;
+    if (field) {
       collection = collection.where(field, operator, value);
     }
     return collection.onSnapshot(snapshot => {
@@ -23,7 +22,7 @@ export default function useCollection(path, orderBy, query) {
       });
       setDocs(docs);
     });
-  }, [path, orderBy]);
+  }, [path, orderBy, field, operator, value]);
 
   return docs;
 }

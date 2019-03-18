@@ -6,11 +6,11 @@ const propTypes = {
   channelId: T.string.isRequired,
 };
 function Members({ channelId }) {
-  const members = useCollection('users', null, {
-    field: `channels.${channelId}`,
-    operator: '==',
-    value: true,
-  });
+  const members = useCollection('users', 'displayName', [
+    `channels.${channelId}`,
+    '==',
+    true,
+  ]);
   console.log(members);
   return (
     <div className="Members">
