@@ -1,1 +1,3 @@
 node_modules/
+# this holds secrets.
+.runtimeconfig.json
