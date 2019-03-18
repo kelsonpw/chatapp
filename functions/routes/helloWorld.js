@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
 
 module.exports = functions.https.onRequest((request, response) => {
-  response.send('Hello dude Firebase!');
+  response.send('Ay there brudda.');
 });

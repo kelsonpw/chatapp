@@ -5,3 +5,4 @@ admin.initializeApp();
 exports.helloWorld = require('./routes/helloWorld');
 
 exports.onUserStatusChange = require('./triggers/onUserStatusChange');
+exports.onBenderMessage = require('./triggers/onBenderMessage');

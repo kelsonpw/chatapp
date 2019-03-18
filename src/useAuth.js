@@ -8,20 +8,20 @@ export default function useAuth() {
   useEffect(() => {
     return firebase.auth().onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
-        const user = {
+        const userData = {
           displayName: firebaseUser.displayName,
           photoUrl: firebaseUser.photoURL,
           uid: firebaseUser.uid,
         };
-        setUser(user);
-        setupPresence(user);
+        setUser(userData);
+        setupPresence(userData);
         db.collection('users')
           .doc(user.uid)
-          .set(user, { merge: true });
+          .set(userData, { merge: true });
       } else {
         setUser(null);
       }
     });
-  }, [user, setUser, setupPresence]);
+  }, []);
   return user;
 }
