@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Nav from './Nav';
 import Channel from './Channel';
-import firebase, { db } from './firebase';
+import firebase from './firebase';
 import useAuth from './useAuth';
 import { Router, Redirect } from '@reach/router';
 

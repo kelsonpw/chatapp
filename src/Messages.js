@@ -1,6 +1,11 @@
 import React from 'react';
+import T from 'prop-types';
 import useCollection from './useCollection';
 import useDocument from './useDocument';
+
+const messagesPropTypes = {
+  channelId: T.string.isRequired,
+};
 
 function Messages({ channelId }) {
   const messages = useCollection(`channels/${channelId}/messages`, 'createdAt');
@@ -29,6 +34,11 @@ function Messages({ channelId }) {
     </div>
   );
 }
+
+const messageWithAvatarPropTypes = {
+  message: T.object.isRequired,
+  showDate: T.bool.isRequired,
+};
 
 function MessageWithAvatar({ message, showDate }) {
   const author = useDocument(message.user.path);
@@ -60,5 +70,8 @@ function MessageWithAvatar({ message, showDate }) {
     </div>
   );
 }
+
+Messages.propTypes = messagesPropTypes;
+MessageWithAvatar.propTypes = messageWithAvatarPropTypes;
 
 export default Messages;
