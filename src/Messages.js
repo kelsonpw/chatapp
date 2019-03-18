@@ -2,6 +2,7 @@ import React from 'react';
 import T from 'prop-types';
 import useCollection from './useCollection';
 import MessageWithAvatar from './MessageWithAvatar';
+import ChatScroller from './ChatScroller';
 import isSameDay from 'date-fns/is_same_day';
 
 const messagesPropTypes = {
@@ -10,9 +11,8 @@ const messagesPropTypes = {
 
 function Messages({ channelId }) {
   const messages = useCollection(`channels/${channelId}/messages`, 'createdAt');
-
   return (
-    <div className="Messages">
+    <ChatScroller className="Messages">
       <div className="EndOfMessages">That's every message!</div>
       {messages.map((message, index) => {
         const prev = messages[index - 1];
@@ -32,7 +32,7 @@ function Messages({ channelId }) {
           </div>
         );
       })}
-    </div>
+    </ChatScroller>
   );
 }
 
@@ -40,11 +40,12 @@ function shouldShowDay(prev, message) {
   // is first message
   const isFirst = !prev;
   if (isFirst) return true;
-
+  // is first message of a new day
   const isNewDay = !isSameDay(
     prev.createdAt.seconds * 1000,
     message.createdAt.seconds * 1000
   );
+  // is new day, show date, otherwise do not
   return isNewDay;
 }
 

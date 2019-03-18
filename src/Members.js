@@ -1,6 +1,17 @@
 import React from 'react';
+import T from 'prop-types';
+import useCollection from './useCollection';
 
-function Members() {
+const propTypes = {
+  channelId: T.string.isRequired,
+};
+function Members({ channelId }) {
+  const members = useCollection('users', null, {
+    field: `channels.${channelId}`,
+    operator: '==',
+    value: true,
+  });
+  console.log(members);
   return (
     <div className="Members">
       <div>
@@ -16,5 +27,7 @@ function Members() {
     </div>
   );
 }
+
+Members.propTypes = propTypes;
 
 export default Members;
