@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import firebase, { db } from './firebase';
+import firebase, { db, setupPresence } from './firebase';
 
 export default function useAuth() {
   const [user, setUser] = useState(null);
@@ -13,14 +13,15 @@ export default function useAuth() {
           photoUrl: firebaseUser.photoURL,
           uid: firebaseUser.uid,
         };
+        setUser(user);
+        setupPresence(user);
         db.collection('users')
           .doc(user.uid)
           .set(user, { merge: true });
-        setUser(user);
       } else {
         setUser(null);
       }
     });
-  }, []);
+  }, [user, setUser, setupPresence]);
   return user;
 }
