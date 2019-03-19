@@ -18,7 +18,11 @@ function Members({ channelId }) {
       <div>
         {members.sort(sortByName).map(member => (
           <div key={member.id} className="Member">
-            <div className={`MemberStatus ${member.status ? member.status.state : 'offline'}`} />
+            <div
+              className={`MemberStatus ${
+                member.status ? member.status.state : 'offline'
+              }`}
+            />
             {member.displayName}
           </div>
         ))}

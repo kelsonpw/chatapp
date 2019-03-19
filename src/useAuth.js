@@ -16,7 +16,7 @@ export default function useAuth() {
         setUser(userData);
         setupPresence(userData);
         db.collection('users')
-          .doc(user.uid)
+          .doc(userData.uid)
           .set(userData, { merge: true });
       } else {
         setUser(null);

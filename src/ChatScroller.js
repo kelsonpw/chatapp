@@ -23,7 +23,7 @@ function ChatScroller(props) {
     shouldScrollRef.current = atBottom;
   };
 
-  return <div {...  props} ref={ref} onScroll={handleScroll} />;
+  return <div {...props} ref={ref} onScroll={handleScroll} />;
 }
 
 ChatScroller.propTypes = propTypes;
