@@ -49,7 +49,7 @@ module.exports = functions.firestore
   .document('channels/general/messages/{messageId}')
   .onCreate((doc, context) => {
     const message = doc.data();
-    if (!message) {
+    if (!message.text.startsWith('@')) {
       return;
     }
     return sleep().then(() => {
