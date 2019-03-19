@@ -13,6 +13,11 @@ export default function useAuth() {
           photoUrl: firebaseUser.photoURL,
           uid: firebaseUser.uid,
         };
+        if (firebaseUser.isAnonymous) {
+          userData.photoUrl =
+            'https://api.adorable.io/avatars/285/abott@adorable.png';
+          userData.displayName = 'Anonymous Freak';
+        }
         setUser(userData);
         setupPresence(userData);
         db.collection('users')

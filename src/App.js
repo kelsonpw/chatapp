@@ -31,10 +31,20 @@ function Login() {
       setAuthError(error);
     }
   };
+
+  const handleAnonSignIn = async () => {
+    try {
+      await firebase.auth().signInAnonymously();
+    } catch (error) {
+      setAuthError(error);
+    }
+  };
+
   return (
     <div className="Login">
       <h1>Airhead.io</h1>
       <button onClick={handleSignIn}>Sign in with Google</button>
+      <button onClick={handleAnonSignIn}>Sign in anonymously</button>
       {authError && (
         <div>
           <p>Sorry there was a problem.</p>
