@@ -25,10 +25,11 @@ db.collection('users')
 
 let cs = '';
 
-function sendMessageToBot(message) {
+function sendMessageToBot({ text }) {
+  const msg = text.replace(/^@bender /, '');
   const url = `https://www.cleverbot.com/getreply?key=${
     config.iambender.key
-  }&input=${encodeURIComponent(message)}&cs=${cs}`;
+  }&input=${encodeURIComponent(msg)}&cs=${cs}`;
   return fetch(url)
     .then(res => res.json())
     .then(json => {
@@ -52,7 +53,7 @@ module.exports = functions.firestore
       return;
     }
     return sleep().then(() => {
-      sendMessageToBot(message.text.replace(/^@bender /, '')).then(
+      sendMessageToBot(message).then(
         botResponse => {
           return db.collection('channels/general/messages').add({
             text: botResponse,
