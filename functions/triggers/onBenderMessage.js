@@ -23,7 +23,6 @@ db.collection('users')
   .doc(bot.uid)
   .set(bot, { merge: true });
 
-const BOT_KEY = 'CC8tlkWFCED6g15JTgTqE5flQFg';
 let cs = '';
 
 function sendMessageToBot(message) {
