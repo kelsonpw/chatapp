@@ -41,7 +41,7 @@ function sendMessageToBot({ text }) {
 
 function sleep() {
   return new Promise(resolve => {
-    setTimeout(resolve, Math.random() * 1800);
+    setTimeout(resolve, Math.random() * 300);
   });
 }
 
@@ -49,18 +49,16 @@ module.exports = functions.firestore
   .document('channels/general/messages/{messageId}')
   .onCreate((doc, context) => {
     const message = doc.data();
-    if (!message.text.startsWith('@bender')) {
+    if (!message) {
       return;
     }
     return sleep().then(() => {
-      sendMessageToBot(message).then(
-        botResponse => {
-          return db.collection('channels/general/messages').add({
-            text: botResponse,
-            user: db.collection('users').doc('bender'),
-            createdAt: new Date(),
-          });
-        }
-      );
+      sendMessageToBot(message).then(botResponse => {
+        return db.collection('channels/general/messages').add({
+          text: botResponse,
+          user: db.collection('users').doc('bender'),
+          createdAt: new Date(),
+        });
+      });
     });
   });
