@@ -27,10 +27,10 @@ let cs = '';
 
 function sendMessageToBot({ text }) {
   const msg = text.replace(/^@bender /, '');
-  const url = `https://www.cleverbot.com/getreply?key=${
-    config.iambender.key
-  }&input=${encodeURIComponent(msg)}&cs=${cs}`;
-  return fetch(url)
+  const base = `https://www.cleverbot.com/getreply`;
+  const key = `?key=${config.iambender.key}`;
+  const data = `&input=${encodeURIComponent(msg)}&cs=${cs}`;
+  return fetch(`${base}${key}${data}`)
     .then(res => res.json())
     .then(json => {
       cs = json.cs;

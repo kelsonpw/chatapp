@@ -30,7 +30,7 @@ export default function useDocWithCache(path) {
     return () => {
       stillMounted = false;
     };
-  }, [path]);
+  }, [path, doc]);
 
   return doc;
 }
