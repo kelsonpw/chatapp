@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import T from 'prop-types';
 import useCollection from './useCollection';
 import MessageWithAvatar from './MessageWithAvatar';
 import ChatScroller from './ChatScroller';
 import isSameDay from 'date-fns/is_same_day';
+import { ChannelContext } from './Channel';
 
-const messagesPropTypes = {
-  channelId: T.string.isRequired,
-};
+const propTypes = {};
 
-function Messages({ channelId }) {
+function Messages() {
+  //context
+  const channelId = useContext(ChannelContext);
+
+  // state
   const messages = useCollection(`channels/${channelId}/messages`, 'createdAt');
+
+  // render
   return (
     <ChatScroller className="Messages">
       <div className="EndOfMessages">That's every message!</div>
@@ -64,6 +69,6 @@ function shouldShowAvatar(prev, message) {
   return false;
 }
 
-Messages.propTypes = messagesPropTypes;
+Messages.propTypes = propTypes;
 
 export default Messages;

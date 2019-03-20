@@ -9,8 +9,10 @@ const propTypes = {
 };
 
 function MessageWithAvatar({ message, showDate }) {
+  // state
   const author = useDocWithCache(message.user.path);
 
+  // render
   return (
     <div>
       {showDate && (

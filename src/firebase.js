@@ -3,57 +3,61 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/database';
 
-const config = {
+firebase.initializeApp({
   apiKey: 'AIzaSyBFD9zOGFuTR5Qq0UOlr81gVPyvdumEvDk',
   authDomain: 'airheadio.firebaseapp.com',
   databaseURL: 'https://airheadio.firebaseio.com',
   projectId: 'airheadio',
   storageBucket: 'airheadio.appspot.com',
   messagingSenderId: '471992828967',
-};
-
-firebase.initializeApp(config);
+});
 const db = firebase.firestore();
 const rtdb = firebase.database();
 
+const CTX = {
+  isOfflineForRTDB: {
+    state: 'offline',
+    lastChanged: firebase.database.ServerValue.TIMESTAMP,
+  },
+  isOnlineForRTDB: {
+    state: 'online',
+    lastChanged: firebase.database.ServerValue.TIMESTAMP,
+  },
+  isOfflineForFirestore: {
+    state: 'offline',
+    lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
+  },
+  isOnlineForFirestore: {
+    state: 'online',
+    lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
+  },
+};
+
 export function setupPresence(user) {
-  const isOfflineForRTDB = {
-    state: 'offline',
-    lastChanged: firebase.database.ServerValue.TIMESTAMP,
-  };
-
-  const isOnlineForRTDB = {
-    state: 'online',
-    lastChanged: firebase.database.ServerValue.TIMESTAMP,
-  };
-
-  const isOfflineForFirestore = {
-    state: 'offline',
-    lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-  };
-
-  const isOnlineForFirestore = {
-    state: 'online',
-    lastChanged: firebase.firestore.FieldValue.serverTimestamp(),
-  };
-
+  // get realtime user data
   const rtdbRef = rtdb.ref(`/status/${user.uid}`);
+  // get firestore user doc
   const userDoc = db.doc(`/users/${user.uid}`);
 
+  // when connected take a snapshot
   rtdb.ref('.info/connected').on('value', async snapshot => {
-    // return if not present;
+    // return if no user value present in snapshot;
     if (!snapshot.val()) {
+      // UPDATE TO OFFLINE.
       userDoc.update({
-        status: isOfflineForFirestore,
+        status: CTX.isOfflineForFirestore,
       });
       return;
     }
 
-    await rtdbRef.onDisconnect().set(isOfflineForRTDB);
+    // await telling the realtime database what to it should do when user disconnects
+    await rtdbRef.onDisconnect().set(CTX.isOfflineForRTDB);
 
-    rtdbRef.set(isOnlineForRTDB);
+    // tell realtime database that user is online
+    rtdbRef.set(CTX.isOnlineForRTDB);
+    // sync realtime database with firestore
     userDoc.update({
-      status: isOnlineForFirestore,
+      status: CTX.isOnlineForFirestore,
     });
   });
 }

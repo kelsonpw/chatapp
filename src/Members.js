@@ -1,18 +1,21 @@
-import React from 'react';
-import T from 'prop-types';
+import React, { useContext } from 'react';
 import useCollection from './useCollection';
+import { ChannelContext } from './Channel';
 
-const propTypes = {
-  channelId: T.string.isRequired,
-};
+const propTypes = {};
 
-function Members({ channelId }) {
+function Members() {
+  // context
+  const channelId = useContext(ChannelContext);
+
+  // state
   const members = useCollection('users', null, [
     `channels.${channelId}`,
     '==',
     true,
   ]);
 
+  // render
   return (
     <div className="Members">
       <div>

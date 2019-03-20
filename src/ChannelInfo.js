@@ -1,14 +1,19 @@
-import React from 'react';
-import T from 'prop-types';
+import React, { useContext } from 'react';
 
 import useDoc from './useDoc';
+import { ChannelContext } from './Channel';
 
-const propTypes = {
-  channelId: T.string.isRequired,
-};
+const propTypes = {};
 
-function ChannelInfo({ channelId }) {
+function ChannelInfo() {
+  // context
+  const channelId = useContext(ChannelContext);
+
+  // state
   const channel = useDoc(`channels/${channelId}`);
+
+  // render
+
   return (
     <div className="ChannelInfo">
       <div className="Topic">

@@ -6,9 +6,11 @@ const propTypes = {};
 // Wont force scroll if the user has scrolled up from the bottom
 
 function ChatScroller(props) {
+  // refs
   const ref = useRef();
   const shouldScrollRef = useRef(true);
 
+  // internal methods/hooks
   useEffect(() => {
     if (shouldScrollRef.current) {
       const node = ref.current;
@@ -16,6 +18,7 @@ function ChatScroller(props) {
     }
   });
 
+  // scroll handler
   const handleScroll = () => {
     const node = ref.current;
     const { scrollTop, scrollHeight, clientHeight } = node;
@@ -23,6 +26,7 @@ function ChatScroller(props) {
     shouldScrollRef.current = atBottom;
   };
 
+  // render
   return <div {...props} ref={ref} onScroll={handleScroll} />;
 }
 

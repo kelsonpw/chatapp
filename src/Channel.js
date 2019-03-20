@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import T from 'prop-types';
 
 import Members from './Members';
@@ -6,33 +6,42 @@ import ChannelInfo from './ChannelInfo';
 import Messages from './Messages';
 import ChatInputBox from './ChatInputBox';
 import { db } from './firebase';
+import { UserContext } from './App';
 
 const propTypes = {
   channelId: T.string,
-  user: T.object.isRequired,
 };
 
-function Channel({ channelId, user }) {
+export const ChannelContext = createContext();
+
+function Channel({ channelId }) {
+  // context
+  const user = useContext(UserContext);
+
+  // hooks / on mount
   useEffect(() => {
     db.doc(`users/${user.uid}`).update({
       [`channels.${channelId}`]: true,
     });
   }, [user, channelId]);
 
+  // render
+
   return (
-    <div className="Channel">
-      {channelId && (
-        <div className="ChannelMain">
-          <ChannelInfo channelId={channelId} />
-          <Messages channelId={channelId} />
-          <ChatInputBox channelId={channelId} user={user} />
-        </div>
-      )}
-      <Members channelId={channelId} />
-    </div>
+    <ChannelContext.Provider value={channelId}>
+      <div className="Channel">
+        {channelId && (
+          <div className="ChannelMain">
+            <ChannelInfo />
+            <Messages />
+            <ChatInputBox />
+          </div>
+        )}
+        <Members />
+      </div>
+    </ChannelContext.Provider>
   );
 }
 
 Channel.propTypes = propTypes;
-
 export default Channel;

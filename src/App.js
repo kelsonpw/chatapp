@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
+import { Router, Redirect } from '@reach/router';
+
 import Nav from './Nav';
 import Channel from './Channel';
 import firebase from './firebase';
 import useAuth from './useAuth';
-import { Router, Redirect } from '@reach/router';
+
+export const UserContext = createContext();
 
 function App() {
   const user = useAuth();
 
   return user ? (
-    <div className="App">
-      <Nav user={user} />
-      <Router>
-        <Channel path="channel/:channelId" user={user} />
-        <Redirect from="/" to="channel/general" />
-      </Router>
-    </div>
+    <UserContext.Provider value={user}>
+      <div className="App">
+        <Nav />
+        <Router>
+          <Channel path="channel/:channelId" />
+          <Redirect from="/" to="channel/general" />
+        </Router>
+      </div>
+    </UserContext.Provider>
   ) : (
     <Login />
   );
 }
 
 function Login() {
+  // state
   const [authError, setAuthError] = useState(null);
+
+  // click handlers
   const handleSignIn = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
@@ -39,6 +47,8 @@ function Login() {
       setAuthError(error);
     }
   };
+
+  // render
 
   return (
     <div className="Login">

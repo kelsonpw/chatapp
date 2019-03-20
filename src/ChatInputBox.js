@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import T from 'prop-types';
 
 import { db } from './firebase';
+import { ChannelContext } from './Channel';
+import { UserContext } from './App';
 
-const propTypes = {
-  channelId: T.string.isRequired,
-  user: T.object.isRequired,
-};
+const propTypes = {};
 
-function ChatInputBox({ channelId, user }) {
+function ChatInputBox() {
+  // state
   const [text, setText] = useState('');
 
+  // context
+  const channelId = useContext(ChannelContext);
+  const user = useContext(UserContext);
+
+  // click handler methods/logic
   const updateMessage = event => {
     setText(event.target.value);
   };
@@ -25,6 +30,7 @@ function ChatInputBox({ channelId, user }) {
     setText('');
   };
 
+  // render
   return (
     <form onSubmit={postMessage} className="ChatInputBox">
       <input

@@ -1,18 +1,22 @@
-import React from 'react';
-import T from 'prop-types';
+import React, { useContext } from 'react';
 import { Link } from '@reach/router';
 import useCollection from './useCollection';
 import firebase from './firebase';
+import { UserContext } from './App';
 
-const propTypes = {
-  user: T.object.isRequired,
-};
+const propTypes = {};
 
-function Nav({ user }) {
+function Nav() {
+  // context
+  const user = useContext(UserContext);
+
+  //state
   const channels = useCollection('channels');
 
+  // click handler
   const handleSignout = () => firebase.auth().signOut();
 
+  // render
   return (
     <div className="Nav">
       <div className="User">
