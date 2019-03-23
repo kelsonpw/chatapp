@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 
 import firebase, { db, setupPresence } from './firebase';
 
+const randomImg = `https://source.unsplash.com/random/200x200`;
+
 export default function useAuth() {
   const [user, setUser] = useState(null);
 
@@ -10,14 +12,13 @@ export default function useAuth() {
       if (firebaseUser) {
         const userData = {
           displayName: firebaseUser.displayName,
-          photoUrl: firebaseUser.photoURL,
+          photoUrl: firebaseUser.photoURL || randomImg,
           uid: firebaseUser.uid,
         };
         if (firebaseUser.isAnonymous) {
-          userData.photoUrl =
-            'https://api.adorable.io/avatars/285/abott@adorable.png';
+          userData.photoUrl = randomImg;
+          userData.displayName = 'Anonymous Human';
         }
-        userData.displayName = 'Anonymous Freakazoid';
         db.collection('users')
           .doc(userData.uid)
           .set(userData);
