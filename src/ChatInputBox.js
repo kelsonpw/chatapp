@@ -35,7 +35,7 @@ function ChatInputBox() {
     <form onSubmit={postMessage} className="ChatInputBox">
       <input
         className="ChatInput"
-        placeholder={`Message #${channelId}`}
+        placeholder={`Message #${channelId}.  @bot to message BenderBot.  See what he has to say!`}
         value={text}
         onChange={updateMessage}
       />
