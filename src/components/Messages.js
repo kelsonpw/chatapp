@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import T from 'prop-types';
-import useCollection from './useCollection';
+import useCollection from '../hooks/useCollection';
 import MessageWithAvatar from './MessageWithAvatar';
 import ChatScroller from './ChatScroller';
 import isSameDay from 'date-fns/is_same_day';

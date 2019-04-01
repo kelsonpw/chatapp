@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from '@reach/router';
-import useCollection from './useCollection';
-import firebase from './firebase';
-import { UserContext } from './App';
+import useCollection from '../hooks/useCollection';
+import firebase from '../firebase';
+import { UserContext } from '../App';
 
 const propTypes = {};
 

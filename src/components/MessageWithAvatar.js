@@ -1,6 +1,6 @@
 import React from 'react';
 import T from 'prop-types';
-import useDocWithCache from './useDocWithCache';
+import useDocWithCache from '../hooks/useDocWithCache';
 import formatDate from 'date-fns/format';
 
 const propTypes = {

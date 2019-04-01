@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import T from 'prop-types';
 
-import { db } from './firebase';
+import { db } from '../firebase';
 import { ChannelContext } from './Channel';
-import { UserContext } from './App';
+import { UserContext } from '../App';
 
 const propTypes = {};
 

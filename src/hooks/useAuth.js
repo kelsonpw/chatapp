@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import firebase, { db, setupPresence } from './firebase';
+import firebase, { db, setupPresence } from '../firebase';
 
 const randomImg = `https://source.unsplash.com/random/200x200`;
 

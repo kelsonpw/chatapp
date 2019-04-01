@@ -1,10 +1,10 @@
 import React, { createContext, useState } from 'react';
 import { Router, Redirect } from '@reach/router';
 
-import Nav from './Nav';
-import Channel from './Channel';
+import Nav from './components/Nav';
+import Channel from './components/Channel';
 import firebase from './firebase';
-import useAuth from './useAuth';
+import useAuth from './hooks/useAuth';
 
 export const UserContext = createContext();
 

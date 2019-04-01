@@ -5,8 +5,8 @@ import Members from './Members';
 import ChannelInfo from './ChannelInfo';
 import Messages from './Messages';
 import ChatInputBox from './ChatInputBox';
-import { db } from './firebase';
-import { UserContext } from './App';
+import { db } from '../firebase';
+import { UserContext } from '../App';
 
 const propTypes = {
   channelId: T.string,

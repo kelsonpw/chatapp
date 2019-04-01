@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import useDoc from './useDoc';
+import useDoc from '../hooks/useDoc';
 import { ChannelContext } from './Channel';
 
 const propTypes = {};

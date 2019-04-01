@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import useCollection from './useCollection';
+import useCollection from '../hooks/useCollection';
 import { ChannelContext } from './Channel';
 
 const propTypes = {};
