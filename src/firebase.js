@@ -4,12 +4,12 @@ import 'firebase/auth';
 import 'firebase/database';
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyBFD9zOGFuTR5Qq0UOlr81gVPyvdumEvDk',
+  apiKey: 'apikey',
   authDomain: 'airheadio.firebaseapp.com',
   databaseURL: 'https://airheadio.firebaseio.com',
   projectId: 'airheadio',
   storageBucket: 'airheadio.appspot.com',
-  messagingSenderId: '471992828967',
+  messagingSenderId: '',
 });
 const db = firebase.firestore();
 const rtdb = firebase.database();
